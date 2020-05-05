@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "format": {
+      "version": 1
+    }
+  },
+  "body": {
+    "conditions": [
+      {
+        "id": "c1",
+        "conditions": [
+          {
+            "input": "$previous.result",
+            "operation": "equal",
+            "value": "true"
+          }
+        ],
+        "next_actions": {
+          "true": {
+            "operation": "transit_to_next"
+            "next_id": "3"
+          },
+          "false": {
+            "operation": "transit_to_next"
+            "next_id": "4"
+          }
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "1",
+        "next": "2",
+        "name": "Monitoring",
+        "actions": [
+          {
+            "type": "matcher",
+            "params": {
+              "contains": "abc"
+            }
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "next": "c1",
+        "name": "Action",
+        "actions": [
+          {
+            "type": "instance",
+            "params": {
+              "action": "restart",
+              "target": "$event.instance_id"
+            }
+          }
+        ]
+      },
+      {
+        "id": "3",
+        "name": "Notification A",
+        "actions": [
+          {
+            "type": "matcher",
+            "params": {
+              "contains": "abc"
+            }
+          }
+        ]
+      },
+      {
+        "id": "4",
+        "name": "Notification B",
+        "actions": [
+          {
+            "type": "matcher",
+            "params": {
+              "contains": "abc"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
