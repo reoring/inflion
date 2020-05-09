@@ -10,34 +10,11 @@
 
 package flow
 
-type RecipeReader interface {
-	Read() Recipe
+type Actions struct {
+	Actions []Action
 }
 
-type NextStage struct {
-	Id   string
-	Node *Node
-}
-
-type Node interface {
-	GetId() string
-}
-
-type OpsFlow struct {
-	reader RecipeReader
-}
-
-func NewOpsFlow(reader RecipeReader) *OpsFlow {
-	return &OpsFlow{reader: reader}
-}
-
-func (o OpsFlow) Run() error {
-	r := o.reader.Read()
-
-	_, err := r.Resolve()
-	if err != nil {
-		return err
-	}
-
-	return nil
+type Action struct {
+	Type   string
+	Params map[string]string
 }

@@ -8,22 +8,18 @@
     "conditions": [
       {
         "id": "c1",
-        "conditions": [
+        "expressions": [
           {
             "input": "$previous.result",
             "operation": "equal",
             "value": "true"
           }
         ],
-        "next_actions": {
-          "true": {
-            "operation": "transit_to_next"
-            "next_id": "3"
-          },
-          "false": {
-            "operation": "transit_to_next"
-            "next_id": "4"
-          }
+        "if_true": {
+          "next_id": "3"
+        },
+        "if_false": {
+          "next_id": "4"
         }
       }
     ],

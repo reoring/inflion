@@ -8,36 +8,25 @@
 // by the Apache License, Version 2.0, included in the file
 // licenses/APL.txt.
 
-package flow
+package json
 
-type RecipeReader interface {
-	Read() Recipe
-}
+import (
+	"io/ioutil"
+	"testing"
+)
 
-type NextStage struct {
-	Id   string
-	Node *Node
-}
-
-type Node interface {
-	GetId() string
-}
-
-type OpsFlow struct {
-	reader RecipeReader
-}
-
-func NewOpsFlow(reader RecipeReader) *OpsFlow {
-	return &OpsFlow{reader: reader}
-}
-
-func (o OpsFlow) Run() error {
-	r := o.reader.Read()
-
-	_, err := r.Resolve()
+func TestFlowStruct(t *testing.T) {
+	bytes, err := ioutil.ReadFile("sample_flow.json")
 	if err != nil {
-		return err
+		t.Error(err)
 	}
 
-	return nil
+	r, err := Unmarshal(bytes)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if r.Conditions.Conditions[0].IfTrue.Id != "3" {
+		t.Errorf("First conditions not have id 3, got: %s", r.Conditions.Conditions[0].IfTrue.Id)
+	}
 }
